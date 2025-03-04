@@ -50,7 +50,8 @@
       "name": "OpenUPM",
       "url": "https://package.openupm.com",
       "scopes": [
-        "com.cysharp.unitask"
+        "com.cysharp.unitask",
+        "jp.hadashikick.vcontainer"
       ]
     }
   ]
