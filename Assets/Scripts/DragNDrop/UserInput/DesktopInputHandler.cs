@@ -8,9 +8,9 @@ namespace DragNDrop.UserInput
 {
     public class DesktopInputHandler : IInputHandler, ITickable
     {
-        public event Action<Collider2D> OnPointerDown;
-        public event Action OnPointerUp;
-        public event Action<Vector3> OnDrag;
+        public event Action<Collider2D, int> OnPointerDown;
+        public event Action<int> OnPointerUp;
+        public event Action<Vector3, int> OnDrag;
 
         [Inject]
         private Camera _camera;
@@ -31,21 +31,21 @@ namespace DragNDrop.UserInput
                 if (_wasPressing == false)
                 {
                     _prevMousePosition = mousePosition;
-                    OnPointerDown?.Invoke(Physics2DUtils.Raycast(_camera, mousePosition));
+                    OnPointerDown?.Invoke(Physics2DUtils.Raycast(_camera, mousePosition), 0);
                 }
                 else
                 {
                     var delta = _camera.ScreenToWorldPoint(mousePosition)
                         - _camera.ScreenToWorldPoint(_prevMousePosition);
                     _prevMousePosition = mousePosition;
-                    OnDrag?.Invoke(delta);
+                    OnDrag?.Invoke(delta, 0);
                 }
             }
             else
             {
                 if (_wasPressing)
                 {
-                    OnPointerUp?.Invoke();
+                    OnPointerUp?.Invoke(0);
                 }
             }
         }

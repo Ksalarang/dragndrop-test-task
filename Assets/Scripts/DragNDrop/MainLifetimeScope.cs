@@ -22,6 +22,8 @@ namespace DragNDrop
 
 #if UNITY_EDITOR
             builder.Register<DesktopInputHandler>(Lifetime.Singleton).AsImplementedInterfaces();
+#else
+            builder.Register<MobileInputHandler>(Lifetime.Singleton).AsImplementedInterfaces();
 #endif
         }
     }

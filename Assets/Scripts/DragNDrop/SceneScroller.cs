@@ -19,6 +19,7 @@ namespace DragNDrop
         private readonly Camera _camera;
 
         private bool _dragging;
+        private int _pointerIndex;
 
         public void Start()
         {
@@ -32,14 +33,19 @@ namespace DragNDrop
             _inputHandler.OnDrag -= OnDrag;
         }
 
-        private void OnPointerDown(Collider2D collider2d)
+        private void OnPointerDown(Collider2D collider2d, int pointerIndex)
         {
             _dragging = collider2d.gameObject.CompareTag("Background");
+
+            if (_dragging)
+            {
+                _pointerIndex = pointerIndex;
+            }
         }
 
-        private void OnDrag(Vector3 delta)
+        private void OnDrag(Vector3 delta, int pointerIndex)
         {
-            if (!_dragging)
+            if (!_dragging || pointerIndex != _pointerIndex)
             {
                 return;
             }
