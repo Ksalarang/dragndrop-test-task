@@ -1,0 +1,68 @@
+﻿using System;
+using DragNDrop.Extensions;
+using DragNDrop.UserInput;
+using UnityEngine;
+using VContainer;
+using VContainer.Unity;
+
+namespace DragNDrop
+{
+    public class SceneScroller : IStartable, IDisposable
+    {
+        [Inject]
+        private readonly IInputHandler _inputHandler;
+
+        [Inject]
+        private readonly SpriteRenderer _background;
+
+        [Inject]
+        private readonly Camera _camera;
+
+        private bool _dragging;
+
+        public void Start()
+        {
+            _inputHandler.OnPointerDown += OnPointerDown;
+            _inputHandler.OnDrag += OnDrag;
+        }
+
+        public void Dispose()
+        {
+            _inputHandler.OnPointerDown -= OnPointerDown;
+            _inputHandler.OnDrag -= OnDrag;
+        }
+
+        private void OnPointerDown(Collider2D collider2d)
+        {
+            _dragging = collider2d.gameObject.CompareTag("Background");
+        }
+
+        private void OnDrag(Vector3 delta)
+        {
+            if (!_dragging)
+            {
+                return;
+            }
+
+            var transform = _background.transform;
+            var position = transform.localPosition;
+            delta.y = delta.z = 0;
+            position += delta;
+            transform.localPosition = position;
+
+            var bounds = _background.sprite.bounds;
+            var minX = _camera.ScreenToWorldPoint(Vector3.zero).x;
+            var maxX = _camera.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x;
+            var halfWidth = bounds.extents.x * transform.localScale.x;
+
+            if (position.x - halfWidth > minX)
+            {
+                transform.SetLocalX(minX + halfWidth);
+            }
+            else if (position.x + halfWidth < maxX)
+            {
+                transform.SetLocalX(maxX - halfWidth);
+            }
+        }
+    }
+}
