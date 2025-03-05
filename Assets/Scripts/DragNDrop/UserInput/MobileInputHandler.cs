@@ -14,7 +14,7 @@ namespace DragNDrop.UserInput
         public event Action<Vector3, int> OnDrag;
 
         [Inject]
-        private Camera _camera;
+        private readonly Camera _camera;
 
         private readonly Dictionary<int, Vector2> _prevPositions = new();
 
@@ -32,6 +32,7 @@ namespace DragNDrop.UserInput
                     case TouchPhase.Moved:
                         var delta = _camera.ScreenToWorldPoint(touch.position)
                             - _camera.ScreenToWorldPoint(_prevPositions[i]);
+                        delta.z = 0;
                         _prevPositions[i] = touch.position;
                         OnDrag?.Invoke(delta, i);
                         break;

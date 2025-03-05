@@ -13,7 +13,7 @@ namespace DragNDrop.UserInput
         public event Action<Vector3, int> OnDrag;
 
         [Inject]
-        private Camera _camera;
+        private readonly Camera _camera;
 
         private bool _isPressing;
         private bool _wasPressing;
@@ -37,6 +37,7 @@ namespace DragNDrop.UserInput
                 {
                     var delta = _camera.ScreenToWorldPoint(mousePosition)
                         - _camera.ScreenToWorldPoint(_prevMousePosition);
+                    delta.z = 0;
                     _prevMousePosition = mousePosition;
                     OnDrag?.Invoke(delta, 0);
                 }

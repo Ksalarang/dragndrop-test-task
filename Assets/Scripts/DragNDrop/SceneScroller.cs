@@ -52,8 +52,7 @@ namespace DragNDrop
 
             var transform = _background.transform;
             var position = transform.localPosition;
-            delta.y = delta.z = 0;
-            position += delta;
+            position.x += delta.x;
             transform.localPosition = position;
 
             var bounds = _background.sprite.bounds;

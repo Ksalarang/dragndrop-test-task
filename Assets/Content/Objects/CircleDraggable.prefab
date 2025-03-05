@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4391095036995942991
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620631056140416808, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+    - target: {fileID: 8862497572183258033, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_Name
+      value: CircleDraggable
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2542684904882329429, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8862497572183258033, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 794256423008099478}
+  m_SourcePrefab: {fileID: 100100000, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+--- !u!1 &5047874641337584126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8862497572183258033, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+  m_PrefabInstance: {fileID: 4391095036995942991}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &794256423008099478
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047874641337584126}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

@@ -1,4 +1,5 @@
-﻿using DragNDrop.UserInput;
+﻿using DragNDrop.Dragging;
+using DragNDrop.UserInput;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -19,6 +20,7 @@ namespace DragNDrop
             builder.RegisterInstance(_camera);
 
             builder.RegisterEntryPoint<SceneScroller>().WithParameter(_background);
+            builder.RegisterEntryPoint<ObjectDragHandler>();
 
 #if UNITY_EDITOR
             builder.Register<DesktopInputHandler>(Lifetime.Singleton).AsImplementedInterfaces();
