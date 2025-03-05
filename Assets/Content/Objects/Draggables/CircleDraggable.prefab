@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5897415504157354818, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: <Collider>k__BackingField
+      value: 
+      objectReference: {fileID: 794256423008099478}
     - target: {fileID: 6620631056140416808, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_Sprite
       value: 

@@ -1,4 +1,4 @@
-﻿using DragNDrop.Dragging;
+﻿using DragNDrop.Draggables;
 using DragNDrop.UserInput;
 using UnityEngine;
 using VContainer;
@@ -15,12 +15,23 @@ namespace DragNDrop
         [SerializeField]
         private SpriteRenderer _background;
 
+        [SerializeField]
+        private Transform _surfacesParent;
+
+        [Header("Configs")]
+        [SerializeField]
+        private DraggablesConfig _draggablesConfig;
+
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterInstance(_camera);
+            builder.RegisterInstance(_draggablesConfig);
 
             builder.RegisterEntryPoint<SceneScroller>().WithParameter(_background);
             builder.RegisterEntryPoint<ObjectDragHandler>();
+
+            builder.Register<ObjectDropHandler>(Lifetime.Singleton).AsImplementedInterfaces()
+                .WithParameter(_surfacesParent);
 
 #if UNITY_EDITOR
             builder.Register<DesktopInputHandler>(Lifetime.Singleton).AsImplementedInterfaces();

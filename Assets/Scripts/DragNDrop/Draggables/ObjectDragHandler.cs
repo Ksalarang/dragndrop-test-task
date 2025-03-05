@@ -5,15 +5,19 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace DragNDrop.Dragging
+namespace DragNDrop.Draggables
 {
     public class ObjectDragHandler : IStartable, IDisposable
     {
         [Inject]
         private readonly IInputHandler _inputHandler;
 
+        [Inject]
+        private readonly IObjectDropHandler _dropHandler;
+
         private readonly Dictionary<int, DraggableObject> _draggables = new();
 
+        //todo: replace with Initialize
         public void Start()
         {
             _inputHandler.OnPointerDown += OnPointerDown;
@@ -41,14 +45,16 @@ namespace DragNDrop.Dragging
             if (_draggables.TryGetValue(pointerIndex, out var draggable))
             {
                 draggable.transform.position += delta;
+                //todo: limit position within the screen
             }
         }
 
         private void OnPointerUp(int pointerIndex)
         {
-            if (_draggables.ContainsKey(pointerIndex))
+            if (_draggables.TryGetValue(pointerIndex, out var draggable))
             {
                 _draggables.Remove(pointerIndex);
+                _dropHandler.Drop(draggable);
             }
         }
     }

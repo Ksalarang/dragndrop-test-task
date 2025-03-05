@@ -1,0 +1,19 @@
+﻿using UnityEngine;
+
+namespace DragNDrop.Draggables
+{
+    public class DraggableObject : MonoBehaviour
+    {
+        [field: SerializeField]
+        public Collider2D Collider { get; private set; }
+
+        public Vector3 BottomPoint
+        {
+            get
+            {
+                var bounds = Collider.bounds;
+                return new Vector3(bounds.center.x, bounds.min.y);
+            }
+        }
+    }
+}
