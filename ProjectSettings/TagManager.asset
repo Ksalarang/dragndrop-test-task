@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Surfaces
+    uniqueID: 996134281
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
