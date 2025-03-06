@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DragNDrop.UserInput;
+using DragNDrop.Utils;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -15,7 +16,13 @@ namespace DragNDrop.Draggables
         [Inject]
         private readonly IObjectDropHandler _dropHandler;
 
+        [Inject]
+        private readonly Camera _camera;
+
         private readonly Dictionary<int, DraggableObject> _draggables = new();
+
+        private Vector3 _bottomLeftCorner;
+        private Vector3 _topRightCorner;
 
         //todo: replace with Initialize
         public void Start()
@@ -23,6 +30,9 @@ namespace DragNDrop.Draggables
             _inputHandler.OnPointerDown += OnPointerDown;
             _inputHandler.OnDrag += OnDrag;
             _inputHandler.OnPointerUp += OnPointerUp;
+
+            _bottomLeftCorner = _camera.ScreenToWorldPoint(Vector3.zero);
+            _topRightCorner = _camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
         }
 
         public void Dispose()
@@ -44,8 +54,13 @@ namespace DragNDrop.Draggables
         {
             if (_draggables.TryGetValue(pointerIndex, out var draggable))
             {
-                draggable.transform.position += delta;
-                //todo: limit position within the screen
+                var position = draggable.transform.position;
+                position += delta;
+
+                position = MathUtils.ConstrainWithinCorners(position, draggable.Collider.bounds.extents,
+                    _bottomLeftCorner, _topRightCorner);
+
+                draggable.transform.position = position;
             }
         }
 
