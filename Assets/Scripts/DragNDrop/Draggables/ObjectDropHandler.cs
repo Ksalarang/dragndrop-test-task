@@ -18,6 +18,9 @@ namespace DragNDrop.Draggables
         [Inject]
         private readonly DraggablesConfig _draggablesConfig;
 
+        [Inject]
+        private readonly IObjectOrderHandler _orderHandler;
+
         private readonly List<Surface> _surfaces = new();
         private readonly Dictionary<DraggableObject, CancellationTokenSource> _tokenSources = new();
 
@@ -52,6 +55,8 @@ namespace DragNDrop.Draggables
                 var nearestSurface = GetNearestSurfaceBelow(draggable);
                 DropAsync(draggable, nearestSurface, token).Forget();
             }
+
+            _orderHandler.UpdateOrder();
         }
 
         public void CancelDrop(DraggableObject draggable)

@@ -18,6 +18,9 @@ namespace DragNDrop
         [SerializeField]
         private Transform _surfacesParent;
 
+        [SerializeField]
+        private Transform _draggablesParent;
+
         [Header("Configs")]
         [SerializeField]
         private DraggablesConfig _draggablesConfig;
@@ -32,6 +35,9 @@ namespace DragNDrop
 
             builder.Register<ObjectDropHandler>(Lifetime.Singleton).AsImplementedInterfaces()
                 .WithParameter(_surfacesParent);
+
+            builder.Register<ObjectOrderHandler>(Lifetime.Singleton).AsImplementedInterfaces()
+                .WithParameter(_draggablesParent);
 
 #if UNITY_EDITOR
             builder.Register<DesktopInputHandler>(Lifetime.Singleton).AsImplementedInterfaces();

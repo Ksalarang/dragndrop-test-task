@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DragNDrop.Extensions;
 using DragNDrop.UserInput;
 using DragNDrop.Utils;
 using UnityEngine;
@@ -55,6 +56,7 @@ namespace DragNDrop.Draggables
 
                 _dropHandler.CancelDrop(draggable);
                 draggable.transform.localScale = draggable.DefaultScale * _draggablesConfig.DragScale;
+                draggable.transform.SetLocalZ(_camera.transform.localPosition.z + 1);
             }
         }
 

@@ -10,5 +10,12 @@ namespace DragNDrop.Extensions
             position.x = x;
             transform.localPosition = position;
         }
+
+        public static void SetLocalZ(this Transform transform, float z)
+        {
+            var position = transform.localPosition;
+            position.z = z;
+            transform.localPosition = position;
+        }
     }
 }
