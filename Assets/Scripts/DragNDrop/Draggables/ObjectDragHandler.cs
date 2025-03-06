@@ -53,6 +53,7 @@ namespace DragNDrop.Draggables
             {
                 _draggables[pointerIndex] = draggable;
 
+                _dropHandler.CancelDrop(draggable);
                 draggable.transform.localScale = draggable.DefaultScale * _draggablesConfig.DragScale;
             }
         }

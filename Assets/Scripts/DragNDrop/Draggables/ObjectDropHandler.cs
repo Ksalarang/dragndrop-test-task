@@ -38,6 +38,7 @@ namespace DragNDrop.Draggables
         public void Drop(DraggableObject draggable)
         {
             var surface = _surfaces.FirstOrDefault(s => s.Collider.OverlapPoint(draggable.BottomPoint));
+            var token = GetToken(draggable);
 
             if (surface != null)
             {
@@ -46,9 +47,15 @@ namespace DragNDrop.Draggables
             else
             {
                 var nearestSurface = GetNearestSurfaceBelow(draggable);
-                DropAsync(draggable, nearestSurface, GetToken(draggable)).Forget();
+                DropAsync(draggable, nearestSurface, token).Forget();
             }
-            ScaleBackAsync(draggable, CancellationToken.None).Forget();
+            ScaleBackAsync(draggable, token).Forget();
+        }
+
+        public void CancelDrop(DraggableObject draggable)
+        {
+            CancelToken(draggable);
+            draggable.transform.localScale = draggable.DefaultScale;
         }
 
         private Surface GetNearestSurfaceBelow(DraggableObject draggable)
@@ -94,12 +101,19 @@ namespace DragNDrop.Draggables
             var speed = Mathf.Sqrt((distance * _draggablesConfig.FallAcceleration) / 2f);
             var duration = distance / speed;
 
-            //fixme: object can be dragged when falling
             await draggable.transform.DOMoveY(destination.y, duration)
                 .SetEase(Ease.InQuad).WithCancellation(token);
         }
 
         private CancellationToken GetToken(DraggableObject draggable)
+        {
+            CancelToken(draggable);
+            var newSource = new CancellationTokenSource();
+            _tokenSources[draggable] = newSource;
+            return newSource.Token;
+        }
+
+        private void CancelToken(DraggableObject draggable)
         {
             if (_tokenSources.TryGetValue(draggable, out var tokenSource)
                 && tokenSource.IsCancellationRequested == false)
@@ -107,10 +121,6 @@ namespace DragNDrop.Draggables
                 tokenSource.Cancel();
                 tokenSource.Dispose();
             }
-
-            var newSource = new CancellationTokenSource();
-            _tokenSources[draggable] = newSource;
-            return newSource.Token;
         }
 
         private async UniTask ScaleBackAsync(DraggableObject draggable, CancellationToken token)
