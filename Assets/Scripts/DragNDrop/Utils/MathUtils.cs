@@ -4,7 +4,7 @@ namespace DragNDrop.Utils
 {
     public static class MathUtils
     {
-        public static Vector3 ConstrainWithinCorners(Vector3 position, Vector3 extents, Vector3 bottomLeftCorner,
+        public static Vector3 ClampWithinCorners(Vector3 position, Vector3 extents, Vector3 bottomLeftCorner,
             Vector3 topRightCorner)
         {
             if (position.x - extents.x < bottomLeftCorner.x)

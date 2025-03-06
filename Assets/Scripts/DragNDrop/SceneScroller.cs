@@ -7,7 +7,7 @@ using VContainer.Unity;
 
 namespace DragNDrop
 {
-    public class SceneScroller : IStartable, IDisposable
+    public class SceneScroller : IInitializable, IDisposable
     {
         [Inject]
         private readonly IInputHandler _inputHandler;
@@ -21,7 +21,7 @@ namespace DragNDrop
         private bool _dragging;
         private int _pointerIndex;
 
-        public void Start()
+        public void Initialize()
         {
             _inputHandler.OnPointerDown += OnPointerDown;
             _inputHandler.OnDrag += OnDrag;
