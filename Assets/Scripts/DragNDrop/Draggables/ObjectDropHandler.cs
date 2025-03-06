@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -9,7 +10,7 @@ using VContainer.Unity;
 
 namespace DragNDrop.Draggables
 {
-    public class ObjectDropHandler : IObjectDropHandler, IInitializable
+    public class ObjectDropHandler : IObjectDropHandler, IInitializable, IDisposable
     {
         [Inject]
         private readonly Transform _surfacesParent;
@@ -18,10 +19,20 @@ namespace DragNDrop.Draggables
         private readonly DraggablesConfig _draggablesConfig;
 
         private readonly List<Surface> _surfaces = new();
+        private readonly Dictionary<DraggableObject, CancellationTokenSource> _tokenSources = new();
 
         public void Initialize()
         {
             _surfaces.AddRange(_surfacesParent.GetComponentsInChildren<Surface>());
+        }
+
+        public void Dispose()
+        {
+            foreach (var source in _tokenSources.Values.Where(source => source.IsCancellationRequested == false))
+            {
+                source.Cancel();
+                source.Dispose();
+            }
         }
 
         public void Drop(DraggableObject draggable)
@@ -35,8 +46,7 @@ namespace DragNDrop.Draggables
             else
             {
                 var nearestSurface = GetNearestSurfaceBelow(draggable);
-                //fixme: add token;
-                DropAsync(draggable, nearestSurface, CancellationToken.None).Forget();
+                DropAsync(draggable, nearestSurface, GetToken(draggable)).Forget();
             }
         }
 
@@ -65,6 +75,20 @@ namespace DragNDrop.Draggables
             }
 
             return nearest;
+        }
+
+        private CancellationToken GetToken(DraggableObject draggable)
+        {
+            if (_tokenSources.TryGetValue(draggable, out var tokenSource)
+                && tokenSource.IsCancellationRequested == false)
+            {
+                tokenSource.Cancel();
+                tokenSource.Dispose();
+            }
+
+            var newSource = new CancellationTokenSource();
+            _tokenSources[draggable] = newSource;
+            return newSource.Token;
         }
 
         private async UniTask DropAsync(DraggableObject draggable, Surface surface, CancellationToken token)
