@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DraggablesConfig
   m_EditorClassIdentifier: 
   <DragScale>k__BackingField: 1.3
-  <DragScaleDuration>k__BackingField: 0.3
+  <DragScaleDuration>k__BackingField: 0.15
   <FallAcceleration>k__BackingField: 9.8

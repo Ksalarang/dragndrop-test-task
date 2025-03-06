@@ -43,13 +43,15 @@ namespace DragNDrop.Draggables
             if (surface != null)
             {
                 Debug.Log($"{draggable.name} is on {surface.name}");
+
+                var yOffset = (draggable.DefaultScale.y * _draggablesConfig.DragScale - draggable.DefaultScale.y) / 2f;
+                ScaleBackAsync(draggable, _draggablesConfig.DragScaleDuration, yOffset, token).Forget();
             }
             else
             {
                 var nearestSurface = GetNearestSurfaceBelow(draggable);
                 DropAsync(draggable, nearestSurface, token).Forget();
             }
-            ScaleBackAsync(draggable, token).Forget();
         }
 
         public void CancelDrop(DraggableObject draggable)
@@ -98,9 +100,11 @@ namespace DragNDrop.Draggables
                 + draggable.Collider.bounds.extents.y / _draggablesConfig.DragScale;
             var destination = new Vector3(position.x, destinationY);
             var distance = Vector3.Distance(position, destination);
-            var speed = Mathf.Sqrt((distance * _draggablesConfig.FallAcceleration) / 2f);
+            var speed = Mathf.Sqrt(2f * distance * _draggablesConfig.FallAcceleration);
             var duration = distance / speed;
+            var scaleDuration = Mathf.Min(_draggablesConfig.DragScaleDuration, duration);
 
+            ScaleBackAsync(draggable, scaleDuration, 0f, token).Forget();
             await draggable.transform.DOMoveY(destination.y, duration)
                 .SetEase(Ease.InQuad).WithCancellation(token);
         }
@@ -123,10 +127,15 @@ namespace DragNDrop.Draggables
             }
         }
 
-        private async UniTask ScaleBackAsync(DraggableObject draggable, CancellationToken token)
+        private async UniTask ScaleBackAsync(DraggableObject draggable, float duration, float yOffset,
+            CancellationToken token)
         {
-            await draggable.transform.DOScale(draggable.DefaultScale, _draggablesConfig.DragScaleDuration)
-                .WithCancellation(token);
+            if (yOffset > 0f)
+            {
+                var y = draggable.transform.localPosition.y - yOffset;
+                draggable.transform.DOLocalMoveY(y, duration).WithCancellation(token).Forget();
+            }
+            await draggable.transform.DOScale(draggable.DefaultScale, duration).WithCancellation(token);
         }
     }
 }

@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312102195226332873, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,20 +62,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2542684904882329429, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_Size.x
-      value: 0.72
+      value: 1.02
       objectReference: {fileID: 0}
     - target: {fileID: 2542684904882329429, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_Size.y
-      value: 0.71
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542684904882329429, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.3351955
       objectReference: {fileID: 0}
     - target: {fileID: 2542684904882329429, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.765625
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6620631056140416808, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 8f58e37f7c909634bbfd09a54b28091d, type: 3}
+    - target: {fileID: 6620631056140416808, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8862497572183258033, guid: 4301d50d6891f3649a2ba49430f1e5bf, type: 3}
       propertyPath: m_Name
       value: Pot

@@ -49,7 +49,7 @@ namespace DragNDrop.Draggables
 
         private void OnPointerDown(Collider2D collider, int pointerIndex)
         {
-            if (collider.TryGetComponent(out DraggableObject draggable))
+            if (collider && collider.TryGetComponent(out DraggableObject draggable))
             {
                 _draggables[pointerIndex] = draggable;
 

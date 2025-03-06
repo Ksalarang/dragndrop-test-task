@@ -35,7 +35,7 @@ namespace DragNDrop
 
         private void OnPointerDown(Collider2D collider2d, int pointerIndex)
         {
-            _dragging = collider2d.gameObject.CompareTag("Background");
+            _dragging = collider2d && collider2d.gameObject.CompareTag("Background");
 
             if (_dragging)
             {
