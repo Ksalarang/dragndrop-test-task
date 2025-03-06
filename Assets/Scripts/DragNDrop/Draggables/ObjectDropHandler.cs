@@ -35,7 +35,6 @@ namespace DragNDrop.Draggables
             else
             {
                 var nearestSurface = GetNearestSurfaceBelow(draggable);
-                //fixme: draggable is dropped below the highest surface y
                 //fixme: add token;
                 DropAsync(draggable, nearestSurface, CancellationToken.None).Forget();
             }
@@ -71,7 +70,8 @@ namespace DragNDrop.Draggables
         private async UniTask DropAsync(DraggableObject draggable, Surface surface, CancellationToken token)
         {
             var position = draggable.BottomPoint;
-            var destination = new Vector3(position.x, surface.Collider.bounds.max.y);
+            var destinationY = surface.Collider.bounds.max.y + draggable.Collider.bounds.extents.y;
+            var destination = new Vector3(position.x, destinationY);
             var distance = Vector3.Distance(position, destination);
             var speed = Mathf.Sqrt((distance * _draggablesConfig.FallAcceleration) / 2f);
             var duration = distance / speed;
