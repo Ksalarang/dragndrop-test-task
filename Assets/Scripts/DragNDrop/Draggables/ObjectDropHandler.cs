@@ -54,13 +54,19 @@ namespace DragNDrop.Draggables
         {
             Surface nearest = null;
             var minDistance = float.MaxValue;
+
             var draggablePosition = draggable.BottomPoint;
+            var bounds = draggable.Collider.bounds;
+            var boundsMin = bounds.min;
+            var boundsMax = bounds.max;
 
             foreach (var surface in _surfaces)
             {
                 var surfacePosition = surface.transform.position;
+                var surfaceBounds = surface.Collider.bounds;
 
-                if (surfacePosition.y > draggablePosition.y)
+                if (surfacePosition.y > draggablePosition.y
+                    || boundsMax.x < surfaceBounds.min.x || boundsMin.x > surfaceBounds.max.x)
                 {
                     continue;
                 }
@@ -74,7 +80,7 @@ namespace DragNDrop.Draggables
                 }
             }
 
-            return nearest;
+            return nearest ?? _surfaces.First();
         }
 
         private CancellationToken GetToken(DraggableObject draggable)
