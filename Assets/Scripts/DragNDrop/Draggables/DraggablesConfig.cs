@@ -6,6 +6,12 @@ namespace DragNDrop.Draggables
     public class DraggablesConfig : ScriptableObject
     {
         [field: SerializeField]
+        public float DragScale { get; private set; }
+
+        [field: SerializeField]
+        public float DragScaleDuration { get; private set; }
+
+        [field: SerializeField]
         public float FallAcceleration { get; private set; }
     }
 }

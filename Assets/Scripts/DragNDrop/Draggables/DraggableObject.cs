@@ -15,5 +15,12 @@ namespace DragNDrop.Draggables
                 return new Vector3(bounds.center.x, bounds.min.y);
             }
         }
+
+        public Vector3 DefaultScale { get; private set; }
+
+        private void Awake()
+        {
+            DefaultScale = transform.localScale;
+        }
     }
 }

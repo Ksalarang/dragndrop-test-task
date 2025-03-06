@@ -19,6 +19,9 @@ namespace DragNDrop.Draggables
         [Inject]
         private readonly Camera _camera;
 
+        [Inject]
+        private readonly DraggablesConfig _draggablesConfig;
+
         private readonly Dictionary<int, DraggableObject> _draggables = new();
 
         private Vector3 _bottomLeftCorner;
@@ -49,6 +52,8 @@ namespace DragNDrop.Draggables
             if (collider.TryGetComponent(out DraggableObject draggable))
             {
                 _draggables[pointerIndex] = draggable;
+
+                draggable.transform.localScale = draggable.DefaultScale * _draggablesConfig.DragScale;
             }
         }
 

@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461661bc8092428196c1c74029076a04, type: 3}
   m_Name: DraggablesConfig
   m_EditorClassIdentifier: 
+  <DragScale>k__BackingField: 1.3
+  <DragScaleDuration>k__BackingField: 0.3
   <FallAcceleration>k__BackingField: 9.8

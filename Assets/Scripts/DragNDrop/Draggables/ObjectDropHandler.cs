@@ -48,6 +48,7 @@ namespace DragNDrop.Draggables
                 var nearestSurface = GetNearestSurfaceBelow(draggable);
                 DropAsync(draggable, nearestSurface, GetToken(draggable)).Forget();
             }
+            ScaleBackAsync(draggable, CancellationToken.None).Forget();
         }
 
         private Surface GetNearestSurfaceBelow(DraggableObject draggable)
@@ -83,6 +84,21 @@ namespace DragNDrop.Draggables
             return nearest ?? _surfaces.First();
         }
 
+        private async UniTask DropAsync(DraggableObject draggable, Surface surface, CancellationToken token)
+        {
+            var position = draggable.BottomPoint;
+            var destinationY = surface.Collider.bounds.max.y
+                + draggable.Collider.bounds.extents.y / _draggablesConfig.DragScale;
+            var destination = new Vector3(position.x, destinationY);
+            var distance = Vector3.Distance(position, destination);
+            var speed = Mathf.Sqrt((distance * _draggablesConfig.FallAcceleration) / 2f);
+            var duration = distance / speed;
+
+            //fixme: object can be dragged when falling
+            await draggable.transform.DOMoveY(destination.y, duration)
+                .SetEase(Ease.InQuad).WithCancellation(token);
+        }
+
         private CancellationToken GetToken(DraggableObject draggable)
         {
             if (_tokenSources.TryGetValue(draggable, out var tokenSource)
@@ -97,17 +113,10 @@ namespace DragNDrop.Draggables
             return newSource.Token;
         }
 
-        private async UniTask DropAsync(DraggableObject draggable, Surface surface, CancellationToken token)
+        private async UniTask ScaleBackAsync(DraggableObject draggable, CancellationToken token)
         {
-            var position = draggable.BottomPoint;
-            var destinationY = surface.Collider.bounds.max.y + draggable.Collider.bounds.extents.y;
-            var destination = new Vector3(position.x, destinationY);
-            var distance = Vector3.Distance(position, destination);
-            var speed = Mathf.Sqrt((distance * _draggablesConfig.FallAcceleration) / 2f);
-            var duration = distance / speed;
-
-            await draggable.transform.DOMoveY(destination.y, duration)
-                .SetEase(Ease.InQuad).WithCancellation(token);
+            await draggable.transform.DOScale(draggable.DefaultScale, _draggablesConfig.DragScaleDuration)
+                .WithCancellation(token);
         }
     }
 }
