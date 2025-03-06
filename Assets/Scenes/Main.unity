@@ -1619,7 +1619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619637274959607022, guid: dbb273a44dd91374aa452d68977ad590, type: 3}
       propertyPath: m_Name
-      value: RedBook
+      value: Book
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
